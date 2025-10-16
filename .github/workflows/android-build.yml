@@ -43,4 +43,5 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          na
+          name: PhotoEditX-APK
+          path: '**/*.apk'  # یا '**/*.aab' اگر فرمت AAB میخوای
