@@ -7,35 +7,40 @@ on:
 
 jobs:
   build-apk:
+    name: Build Android APK via EAS
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ دریافت کد پروژه
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2️⃣ نصب Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      # 3️⃣ نصب Expo CLI و EAS CLI
+      - name: Install Expo & EAS CLI
         run: |
+          npm install -g expo-cli eas-cli
           npm install
-          npm install -g expo-cli
 
+      # 4️⃣ ورود به حساب Expo با Secret
       - name: Login to Expo
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          echo $EXPO_TOKEN | expo login --token
+          echo $EXPO_TOKEN | eas login --token
 
-      - name: Build APK
+      # 5️⃣ Build پروژه برای Android
+      - name: Build Android APK/AAB
         run: |
-          expo build:android -t apk --non-interactive
+          eas build -p android --non-interactive
 
-      - name: Upload APK as artifact
+      # 6️⃣ آپلود فایل Build شده به عنوان Artifact
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PhotoEditX-APK
-          path: '*.apk'
-
+          na
